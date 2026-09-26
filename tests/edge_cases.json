@@ -1,0 +1,483 @@
+[
+  {
+    "id": "edge/truth-empty-array",
+    "rule": {
+      "if": [
+        [],
+        "yes",
+        "no"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/truth-zero-string",
+    "rule": {
+      "if": [
+        "0",
+        "yes",
+        "no"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/lazy-if",
+    "rule": {
+      "if": [
+        true,
+        42,
+        {
+          "unknown": []
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/lazy-and",
+    "rule": {
+      "and": [
+        false,
+        {
+          "unknown": []
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/lazy-or",
+    "rule": {
+      "or": [
+        "ok",
+        {
+          "unknown": []
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/array-identity",
+    "rule": {
+      "===": [
+        {
+          "var": "a"
+        },
+        {
+          "var": "a"
+        }
+      ]
+    },
+    "data": {
+      "a": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "id": "edge/object-identity",
+    "rule": {
+      "===": [
+        {
+          "var": "a"
+        },
+        {
+          "var": "a"
+        }
+      ]
+    },
+    "data": {
+      "a": {
+        "x": 1
+      }
+    }
+  },
+  {
+    "id": "edge/array-distinct",
+    "rule": {
+      "==": [
+        [
+          1
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/object-distinct",
+    "rule": {
+      "===": [
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/equal-empty-array-false",
+    "rule": {
+      "==": [
+        [],
+        false
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/equal-array-string",
+    "rule": {
+      "==": [
+        [
+          1,
+          2
+        ],
+        "1,2"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/equal-object-string",
+    "rule": {
+      "==": [
+        {
+          "x": 1,
+          "y": 2
+        },
+        "[object Object]"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/null-default",
+    "rule": {
+      "var": [
+        "x",
+        99
+      ]
+    },
+    "data": {
+      "x": null
+    }
+  },
+  {
+    "id": "edge/missing-default",
+    "rule": {
+      "var": [
+        "x",
+        99
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/array-length",
+    "rule": {
+      "var": "items.length"
+    },
+    "data": {
+      "items": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "id": "edge/string-length-utf16",
+    "rule": {
+      "var": "name.length"
+    },
+    "data": {
+      "name": "A🌙B"
+    }
+  },
+  {
+    "id": "edge/substr-emoji",
+    "rule": {
+      "substr": [
+        "A🌙B",
+        1,
+        2
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/substr-negative",
+    "rule": {
+      "substr": [
+        "abcdef",
+        -4,
+        -1
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/number-hex",
+    "rule": {
+      "-": [
+        "0x10",
+        1
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/number-binary",
+    "rule": {
+      "-": [
+        "0b11",
+        1
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/parsefloat-prefix",
+    "rule": {
+      "+": [
+        "2.5kg",
+        "1e2tail"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/multiply-single",
+    "rule": {
+      "*": [
+        "5"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/scope-map",
+    "rule": {
+      "map": [
+        {
+          "var": "items"
+        },
+        {
+          "var": "x"
+        }
+      ]
+    },
+    "data": {
+      "x": 99,
+      "items": [
+        {
+          "x": 1
+        },
+        {
+          "x": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": "edge/reduce-initial-scope",
+    "rule": {
+      "reduce": [
+        {
+          "var": "items"
+        },
+        {
+          "+": [
+            {
+              "var": "current"
+            },
+            {
+              "var": "accumulator"
+            }
+          ]
+        },
+        {
+          "var": "initial"
+        }
+      ]
+    },
+    "data": {
+      "items": [
+        1,
+        2
+      ],
+      "initial": 10
+    }
+  },
+  {
+    "id": "edge/some-shortcircuit",
+    "rule": {
+      "some": [
+        [
+          true,
+          false
+        ],
+        {
+          "if": [
+            {
+              "var": ""
+            },
+            true,
+            {
+              "unknown": []
+            }
+          ]
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/none-shortcircuit",
+    "rule": {
+      "none": [
+        [
+          true,
+          false
+        ],
+        {
+          "if": [
+            {
+              "var": ""
+            },
+            true,
+            {
+              "unknown": []
+            }
+          ]
+        }
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/relation-string",
+    "rule": {
+      "<": [
+        "10",
+        "2"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/cat-number",
+    "rule": {
+      "cat": [
+        1,
+        1.5,
+        0,
+        null,
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/cat-tiny-number",
+    "rule": {
+      "cat": [
+        1e-07
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/cat-large-number",
+    "rule": {
+      "cat": [
+        1e+21
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/cat-fixed-number",
+    "rule": {
+      "cat": [
+        1e+20,
+        1e-06
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/substr-negative-fraction",
+    "rule": {
+      "substr": [
+        "abcdef",
+        1,
+        -0.5
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/substr-default-start",
+    "rule": {
+      "substr": [
+        "abcdef"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/infinity-string-compare",
+    "rule": {
+      "<": [
+        1,
+        "Infinity"
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/numeric-bom",
+    "rule": {
+      "-": [
+        "﻿42﻿",
+        1
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/numeric-nel",
+    "rule": {
+      "==": [
+        "1",
+        1
+      ]
+    },
+    "data": {}
+  },
+  {
+    "id": "edge/parsefloat-bom",
+    "rule": {
+      "+": [
+        "﻿2kg",
+        1
+      ]
+    },
+    "data": {}
+  }
+]

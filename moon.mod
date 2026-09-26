@@ -1,19 +1,15 @@
-name = "kaigeliang/casekit"
+name = "kaigeliang/jsonlogic"
 
 version = "0.1.0"
 
 readme = "README.md"
 
-repository = "https://github.com/kaigeliang/moonbit-casekit"
+repository = "https://github.com/kaigeliang/moonbit-jsonlogic"
 
 license = "MIT"
 
-keywords = [ "testing", "differential-testing", "cross-backend" ]
+keywords = [ "jsonlogic", "rules", "validation" ]
 
-description = "Collect and compare MoonBit behavior across compiler backends"
+description = "Portable JSONLogic rule evaluation for MoonBit with reference compatibility tests"
 
 source = "src"
-
-import {
-  "moonbitlang/async@0.19.4",
-}

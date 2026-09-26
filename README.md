@@ -1,162 +1,125 @@
-# MoonBit CaseKit
+# MoonBit JSONLogic
 
-Record the behavior of a MoonBit program and compare it across **native, JavaScript,
-Wasm and Wasm-GC**. CaseKit reports the case ID, nested path, expected value and actual
-value when runs disagree. Use it when porting a library, changing a compiler version,
-or checking serialization and numeric behavior across backends.
+[![Check](https://github.com/kaigeliang/moonbit-jsonlogic/actions/workflows/check.yml/badge.svg)](https://github.com/kaigeliang/moonbit-jsonlogic/actions/workflows/check.yml)
 
-The collection, validation and comparison library is written in MoonBit. A native
-MoonBit CLI compares saved transcripts; a small Python script runs your observation
-package on multiple backends and connects the results to CI.
+**在 MoonBit 中执行 JSONLogic 规则，让表单条件、业务判断和数据筛选复用同一份 JSON。**
 
-## Try it
+A pure MoonBit implementation of the standard [JSONLogic](https://jsonlogic.com/) operators, checked against `json-logic-js` 2.0.5 on native, JavaScript, Wasm and Wasm GC. The runtime depends only on MoonBit's core library.
 
-Prerequisites: [MoonBit](https://www.moonbitlang.com/download/), a C compiler for the
-native backend, Node.js for JS, and Python 3.10+. MoonBit supplies `moonrun` for Wasm.
-The initial release was tested with moonc v0.10.14 and moon 0.1.20260920 on macOS;
-the workflow also checks Linux with the current stable toolchain.
+```json
+{"and": [
+  {">=": [{"var": "age"}, 18]},
+  {"==": [{"var": "country"}, "CN"]}
+]}
+```
+
+这份规则搭配 `{"age": 22, "country": "CN"}` 得到 `true`。规则可存入配置、经 API 传递，再由不同端执行；无需为每条业务规则生成一段源代码。
+
+## 适用场景
+
+- **动态表单**：控制字段显示，判断必填项，检查多个联系方式至少填一个。
+- **业务配置**：根据会员状态、订单金额或权限数据计算条件结果。
+- **数据处理**：使用 `filter`、`map`、`reduce` 从 JSON 集合筛选、映射和汇总。
+
+JSONLogic 已用于 [Form.io 的条件与校验](https://help.form.io/form-building/logic-and-conditions)。本库提供 MoonBit 执行端；尚未与 Form.io 应用做端到端集成。
+
+## 快速运行
+
+需要 MoonBit 工具链；兼容性验证另需 Node.js 22+ 和 Python 3.10+。已验证的工具链为 MoonBit CLI `0.1.20260920` / moonc `v0.10.14+7d59c7ec9`。
 
 ```sh
-git clone https://github.com/kaigeliang/moonbit-casekit.git
-cd moonbit-casekit
+git clone https://github.com/kaigeliang/moonbit-jsonlogic.git
+cd moonbit-jsonlogic
 moon update
-python3 tools/check_targets.py
+moon run src/examples/form --target native
+moon run src/examples/order --target js
+moon run src/examples/filter --target wasm-gc
 ```
 
-The command runs the Unicode/JSON example on all four backends. The first target
-(native by default) is the reference. Each execution gets its own directory under
-`output/casekit/`, containing transcripts and comparison reports.
+三个示例分别输出：
 
-```sh
-# Other runnable use cases
-python3 tools/check_targets.py --package src/examples/numeric
-python3 tools/check_targets.py --package src/examples/collections
-
-# Print an intentional mismatch, including nested array and type differences
-moon run --target native src/examples/canary
-
-# Select backends, optimization mode and an explicit floating-point tolerance
-python3 tools/check_targets.py --targets native js --release --abs-tol 0.000001
+```json
+{"show_company":true,"missing_required":["company"]}
+{"subtotal":110,"discount_percent":10}
+["Ming"]
 ```
 
-The canary intentionally constructs different values. It demonstrates diagnostics;
-it is not evidence of a compiler defect.
+示例代码：[表单](src/examples/form/main.mbt) · [订单](src/examples/order/main.mbt) · [集合筛选](src/examples/filter/main.mbt)。每个示例均断言预期结果。
 
-## Record observations in your library
+## 在你的 MoonBit 项目中使用
 
-Version 0.1.0 is available from this source repository. It has **not been published
-to mooncakes.io**. To use it in another module, place both modules in a local MoonBit
-workspace. For sibling directories, create `moon.work` in their parent:
+当前通过源码 workspace 使用，**尚未发布到 Mooncakes**。例如把本仓库和你的 `app` 放在同一父目录，在 `app/moon.mod` 中加入：
 
 ```moonbit
-members = ["./my-library", "./moonbit-casekit"]
+import { "kaigeliang/jsonlogic@0.1.0" }
 ```
 
-Add `"kaigeliang/casekit@0.1.0"` to your module's `moon.mod` import declaration.
-In an observation executable's `moon.pkg`, use:
+在 `app/moon.work` 中加入两个成员：
 
 ```moonbit
-import {
-  "kaigeliang/casekit" @casekit,
-}
-pkgtype(kind: "executable")
+members = [".", "../moonbit-jsonlogic"]
 ```
 
-Then record JSON values with stable case IDs:
+在调用包的 `moon.pkg` 中导入：
+
+```moonbit
+import { "kaigeliang/jsonlogic" @logic }
+```
 
 ```moonbit
 fn main raise {
-  let suite = @casekit.Suite::new("my-library")
-  suite.observe("sorted", [1, 2, 3].to_json())
-  suite.observe("message", "你好🌙".to_json())
-  suite.observe_number("decimal-sum", 0.1 + 0.2)
-  println(suite.encode())
+  let rule : Json = { ">=": [{ "var": "age" }, 18] }
+  let result = @logic.apply(rule, { "age": 22 })
+  assert_eq(result, true)
 }
 ```
 
-Call the runner from this checkout, pointing to your module and executable:
+`apply_json(rule_text, data_text)` 接受两个 JSON 文本；`evaluate(rule, data, max_steps=..., max_depth=...)` 返回结果、捕获的 `log` 内容与已消耗步数。详见 [API 与集成说明](docs/api.md)。
 
-```sh
-python3 tools/check_targets.py --project ../my-library --package src/observations
-```
+## 支持的操作
 
-The executable must print exactly one transcript to stdout. Send diagnostic logs
-elsewhere. `observe` takes a deep snapshot, so later mutation of a JSON array or
-object cannot change an already recorded case. Empty suites and duplicate IDs are
-errors. See the [examples](src/examples/README.md) and [public API](src/pkg.generated.mbti).
-
-## Compare saved runs
-
-```sh
-moon build --target native
-_build/native/debug/build/cli/cli.exe expected.json actual.json
-_build/native/debug/build/cli/cli.exe --json expected.json actual.json
-_build/native/debug/build/cli/cli.exe --abs-tol 0.000001 expected.json actual.json
-```
-
-Both CLI and runner use these exit codes:
-
-| Code | Meaning |
+| 类别 | 操作 |
 | --- | --- |
-| 0 | All recorded cases match |
-| 1 | Valid runs differ |
-| 2 | Invalid input, invalid settings, build/runtime failure or timeout |
+| 数据 | `var`、`missing`、`missing_some` |
+| 条件 | `if`、`?:`、`and`、`or`、`!`、`!!` |
+| 比较 | `==`、`!=`、`===`、`!==`、`>`、`>=`、`<`、`<=` |
+| 数值 | `+`、`-`、`*`、`/`、`%`、`min`、`max` |
+| 字符串与集合 | `cat`、`substr`、`in`、`merge`、`map`、`filter`、`reduce`、`all`、`some`、`none` |
+| 调试 | `log`（捕获到返回值） |
 
-The library also compares decoded transcripts directly:
+遵循 JSONLogic 的空数组假值、短路求值、集合局部作用域和 JavaScript 风格类型转换。非有限数、JavaScript 原型属性和自定义操作等边界见 [兼容范围](docs/compatibility.md)。通过已有用例不代表覆盖了所有 JavaScript 行为。
 
-```moonbit
-let report = @casekit.compare(@casekit.decode(expected), @casekit.decode(actual))
-println(report.render())
-println(report.encode()) // JSON report for another tool
-```
-
-## Comparison rules
-
-- Cases are matched by ID. Case order and object key order do not matter; array
-  order does. Missing cases, missing fields, `null` and different JSON types remain distinct.
-- Nested differences use JSON Pointer paths, such as `/items/0/name`. An empty path
-  means the case root. Human output shows the first 20 differences by default;
-  the JSON report retains all differences.
-- Numbers compare exactly by default. Explicit tolerances allow
-  `abs(a-b) <= abs_tol` **or** a relative error bounded by `rel_tol`.
-  Tolerances apply to every numeric observation in that comparison.
-- Use `observe_number` for floating-point values: it rejects NaN and infinity
-  before JSON conversion. Calling `.to_json()` yourself may already convert a
-  non-finite value to `null`, which CaseKit cannot recover.
-- Encode exact 64-bit integers as strings. The comparator preserves differences
-  between retained high-precision JSON number spellings, but is not an arbitrary
-  precision arithmetic library. With tolerance enabled, numbers use Double precision.
-  Positive and negative zero compare equal; record a string or bit pattern when
-  their distinction matters.
-- Strings compare without Unicode normalization. Observation values have a nesting
-  limit of 64; decoded transcripts have a limit of 2,097,152 UTF-16 code units.
-
-CaseKit checks the observations you choose. Matching runs do not prove program
-correctness, and the reference backend is not automatically correct. Keep inputs
-deterministic, seed random generators and avoid recording timestamps or unordered
-iteration results unless those are the behavior under test.
-
-`moon test --target ...` runs assertions on each backend; CaseKit adds a reusable
-record-and-compare layer when you want to detect disagreement without writing an
-expected value for every case. It does not generate test inputs or shrink failures.
-
-See [the v1 protocol](docs/protocol.md) for transcript and report details.
-
-## Run checks
+## 验证与 CaseKit
 
 ```sh
-moon fmt --check
 moon test --target native
-moon test --target js
-moon test --target wasm
-moon test --target wasm-gc
-moon build --target native
-python3 -m unittest discover -s tests -v
+python3 tools/check_compat.py
 ```
 
-The core imports only MoonBit core packages. The native CLI uses
-`moonbitlang/async`; Python orchestration uses only the standard library.
+兼容性脚本执行固定版本的原版 JavaScript，再用 **CaseKit** 将每个 MoonBit 后端的结果与原版逐项比较：
 
-## License
+- 278 个官方用例 + 37 个边界用例，当前共 **315 个**。
+- 四个后端均使用同一组输入，采用严格比较，不启用数值容差。
+- 每次运行保存输入版本对应的观察结果与差异报告到 `output/compat/`。
+- 故意篡改一个结果的负向验证，确认比较器会拒绝错误输出。
 
-[MIT](LICENSE).
+[CaseKit](support/casekit/README.md) 是仓库内独立的测试组件，负责观察记录和 JSON Pointer 差异定位。它仅被 `compat` 验证模块依赖，**应用使用 JSONLogic 主库时无需依赖 CaseKit**。原有 CaseKit 历史与独立 API 保留。
+
+## 仓库内容
+
+```text
+src/                  JSONLogic 运行库与单元测试
+src/examples/         可运行的使用示例
+compat/               跨实现、跨后端的验证程序
+tests/                边界输入 fixtures
+tools/                原版执行器、fixture 生成器、兼容性检查
+support/casekit/      独立的差异比较组件
+third_party/          固定版本的原版 JS、官方测试与许可证
+docs/                 API 与兼容性说明
+```
+
+修改 fixtures 后执行 `python3 tools/generate_cases.py && moon fmt`。CI 会检查 fixtures、公共 API、各后端单元测试、示例、兼容结果及 CaseKit 失败路径。
+
+## 许可证与来源
+
+MIT。MoonBit 移植参考 Jeremy Wadhams 的 `json-logic-js`；原版代码和官方测试均保留 MIT 许可证。固定提交、文件校验值及来源见 [third_party/json-logic-js/README.md](third_party/json-logic-js/README.md)。

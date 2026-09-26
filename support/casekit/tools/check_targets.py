@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run an observation package on multiple MoonBit backends and compare its transcripts."""
 import argparse
+from build_paths import cli_binary
 from pathlib import Path
 import shutil
 import subprocess
@@ -42,7 +43,7 @@ def main():
     artifact_dir = Path(tempfile.mkdtemp(prefix='run-', dir=output))
     print(f'Artifacts: {artifact_dir}', flush=True)
     run([moon, 'build', '--target', 'native'], ROOT, args.timeout)
-    comparator = ROOT / '_build/native/debug/build/cli/cli.exe'
+    comparator = cli_binary()
     transcripts = []
     for target in args.targets:
         command = [moon, 'run', '-q', '--target', target]

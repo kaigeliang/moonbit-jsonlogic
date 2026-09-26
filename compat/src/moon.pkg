@@ -1,0 +1,6 @@
+import {
+  "kaigeliang/jsonlogic" @logic,
+  "kaigeliang/casekit",
+}
+
+pkgtype(kind: "executable")

@@ -4,9 +4,12 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-BINARY = ROOT / '_build/native/debug/build/cli/cli.exe'
+sys.path.insert(0, str(ROOT / 'tools'))
+from build_paths import cli_binary
+BINARY = cli_binary()
 
 
 def transcript(value):

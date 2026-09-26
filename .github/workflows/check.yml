@@ -20,31 +20,36 @@ jobs:
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Resolve dependencies
-        run: moon update
-      - name: Check formatting and API
+      - name: Resolve dependencies and record toolchain
+        run: |
+          moon version --all
+          moon update
+      - name: Check source, fixtures and public API
         run: |
           moon fmt --check
+          python3 tools/generate_cases.py --check
           moon check --target native
           moon info
           git diff --exit-code
-      - name: Test all backends
+      - name: Unit tests and runnable examples on every backend
         run: |
           for target in native js wasm wasm-gc; do
             moon test --target "$target"
+            for example in form order filter; do
+              moon run "src/examples/$example" --target "$target"
+            done
           done
-      - name: Test CLI and runner failure paths
+      - name: Compare against the original JavaScript implementation
+        run: python3 tools/check_compat.py
+      - name: External application integration
+        run: python3 tools/check_consumer.py
+      - name: CaseKit CLI and runner failure paths
         run: |
           moon build --target native
-          python3 -m unittest discover -s tests -v
-      - name: Compare runnable examples
-        run: |
-          for example in text numeric collections; do
-            python3 tools/check_targets.py --package "src/examples/$example"
-          done
+          python3 -m unittest discover -s support/casekit/tests -v
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: casekit-transcripts
-          path: output/casekit/
+          name: jsonlogic-conformance
+          path: output/compat/
           if-no-files-found: ignore
