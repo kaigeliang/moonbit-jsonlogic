@@ -1,6 +1,8 @@
-> This copy of CaseKit is the conformance component of [MoonBit JSONLogic](../../README.md). From this repository's root, run `python3 tools/check_compat.py` for JS-reference verification, or `python3 support/casekit/tools/check_targets.py` for CaseKit's standalone example comparison. The instructions below also apply to the independent CaseKit repository.
-
 # MoonBit CaseKit
+
+**An original MoonBit behavior testing library, designed and implemented by Kaige Liang.**
+
+CaseKit is an independently reusable library delivered alongside [MoonBit JSONLogic](../../README.md). Its observation API, versioned transcript protocol, structural comparator, reports, native CLI and multi-backend runner are developed in this project. The JSONLogic conformance suite uses these APIs to compare the original JavaScript implementation with four MoonBit backends.
 
 Record the behavior of a MoonBit program and compare it across **native, JavaScript,
 Wasm and Wasm-GC**. CaseKit reports the case ID, nested path, expected value and actual
@@ -10,6 +12,27 @@ or checking serialization and numeric behavior across backends.
 The collection, validation and comparison library is written in MoonBit. A native
 MoonBit CLI compares saved transcripts; a small Python script runs your observation
 package on multiple backends and connects the results to CI.
+
+## Use the copy in this repository
+
+From the `moonbit-jsonlogic` repository root:
+
+```sh
+# CaseKit's own four-backend Unicode/JSON example
+python3 support/casekit/tools/check_targets.py
+
+# The JSONLogic integration, checked against the pinned JavaScript original
+python3 tools/check_compat.py
+
+# Compare two saved CaseKit transcripts
+moon run support/casekit/src/cli --target native -- expected.json actual.json
+```
+
+To use this copy in another application, add `support/casekit` as a member of your
+application's `moon.work` and import `kaigeliang/casekit@0.1.0` in its `moon.mod`.
+Use a path relative to that workspace file. The API example below applies to both
+this copy and the independent CaseKit checkout. Commands after this section assume
+the independent checkout shown next.
 
 ## Try it
 
@@ -161,4 +184,4 @@ The core imports only MoonBit core packages. The native CLI uses
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE), copyright 2026 Kaige Liang.
