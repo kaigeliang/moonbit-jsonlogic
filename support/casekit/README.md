@@ -69,9 +69,11 @@ it is not evidence of a compiler defect.
 
 ## Record observations in your library
 
-Version 0.1.0 is available from this source repository. It has **not been published
-to mooncakes.io**. To use it in another module, place both modules in a local MoonBit
-workspace. For sibling directories, create `moon.work` in their parent:
+Version 0.1.0 is available on [Mooncakes](https://mooncakes.io/docs/kaigeliang/casekit).
+Add it to your MoonBit project with `moon add kaigeliang/casekit@0.1.0`.
+
+You can also use both modules in a local MoonBit workspace. For sibling directories,
+create `moon.work` in their parent:
 
 ```moonbit
 members = ["./my-library", "./moonbit-casekit"]

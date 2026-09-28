@@ -59,7 +59,13 @@ moon run src/examples/filter --target wasm-gc
 
 ## 在你的 MoonBit 项目中使用
 
-当前通过源码 workspace 使用，**尚未发布到 Mooncakes**。例如把本仓库和你的 `app` 放在同一父目录，在 `app/moon.mod` 中加入：
+版本 0.1.0 已发布到 [Mooncakes](https://mooncakes.io/docs/kaigeliang/jsonlogic)。在你的 MoonBit 项目中运行：
+
+```sh
+moon add kaigeliang/jsonlogic@0.1.0
+```
+
+也可以通过源码 workspace 使用。例如把本仓库和你的 `app` 放在同一父目录，在 `app/moon.mod` 中加入：
 
 ```moonbit
 import { "kaigeliang/jsonlogic@0.1.0" }
