@@ -1,16 +1,16 @@
 # JSONLogic 存量筛选规则接入 QueryX/foxql
 
-**状态：方向与设计计划，适配器尚未实现。** 当前 0.1.0 提供基础求值能力；本页描述未来查询接入的交付范围。
+**实现状态：适配器尚未实现。** 当前 0.1.0 提供基础求值能力；本页定义查询接入的范围与验收条件。
 
 ## 要解决的问题
 
-已有应用保存了 JSONLogic 筛选规则，MoonBit 后端需要继续使用这些配置查询数据。[React Query Builder 的导出文档](https://react-querybuilder.js.org/docs/utils/export#jsonlogic)提供这种规则格式的实际来源；它也能导出 SQL 等格式。因此本项目面向存量 JSONLogic 配置，而不是假定所有查询构建器用户都需要格式转换。目前尚未验证真实 MoonBit 下游用户的需求。
+已有应用保存了 JSONLogic 筛选规则，MoonBit 后端需要继续使用这些配置查询数据。[React Query Builder 的导出文档](https://react-querybuilder.js.org/docs/utils/export#jsonlogic)提供这种规则格式的实际来源；它也能导出 SQL 等格式。本项目的目标输入限定为存量 JSONLogic 配置。真实下游应用接入尚待验证。
 
 ## 与现有生态的关系
 
 [QueryX](https://github.com/jaredzhou/moonbase/blob/main/queryx/README.mbt.md) 已支持自己的 JSON 筛选 DSL、`Expr` 求值、`FieldResolver` 和 foxql 桥接，其文档示例输入为 `{"filter":{"age":{"gt":18}}}`。标准 JSONLogic 则使用 `{">":[{"var":"age"},18]}` 这样的操作对象。
 
-计划提供一个 QueryX 可选接入模块，将受约束的 JSONLogic 筛选规则导入既有 `Expr`。复用 QueryX/foxql 的字段解析、SQL 生成与查询构建；这些已有能力归于对应项目。导入过程负责判断规则是否在可保持语义的范围内，并解释拒绝原因。
+接入模块的职责是将受约束的 JSONLogic 筛选规则导入既有 QueryX `Expr`，复用 QueryX/foxql 的字段解析、SQL 生成与查询构建。导入过程判断规则是否在可保持语义的范围内，并解释拒绝原因。
 
 JSONLogic 求值库保留为基础组件和结果对照工具。当前跨后端测试用于维护求值行为，查询适配需要额外的数据库一致性证据。
 
@@ -69,5 +69,3 @@ JSONLogic 求值库保留为基础组件和结果对照工具。当前跨后端�
 - [ ] 对不支持子集验证明确拒绝，覆盖 null、类型转换与动态变量。
 - [ ] 完成三个可运行的接入示例与复现说明。
 - [ ] 将接入验证纳入 CI，并发布包含适配器的新版本。
-
-公开检索尚未发现现成 MoonBit JSONLogic → QueryX 接入模块，这不构成穷尽证明。能否据此重新申报和通过审核，以主办方确认及实际交付为准。

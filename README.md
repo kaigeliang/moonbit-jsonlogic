@@ -2,11 +2,11 @@
 
 [![Check](https://github.com/kaigeliang/moonbit-jsonlogic/actions/workflows/check.yml/badge.svg)](https://github.com/kaigeliang/moonbit-jsonlogic/actions/workflows/check.yml)
 
-项目方向：将已经保存的 JSONLogic 筛选配置接入 MoonBit 的 QueryX/foxql 查询管线，复用现有查询工具。
+本项目面向已保存的 JSONLogic 筛选配置，定位为 MoonBit 的 QueryX/foxql 接入适配库。
 
-**当前状态：已交付 JSONLogic 基础求值库；QueryX/foxql 适配器尚未实现。** 0.1.0、下方安装方式、示例与兼容性结果均对应基础求值库。新方向的范围和交付条件见 [接入设计与实施计划](docs/queryx-integration.md)。
+**实现状态：已交付 JSONLogic 基础求值库；QueryX/foxql 适配器尚未实现。** 0.1.0、下方安装方式、示例与兼容性结果均对应基础求值库。接入范围和交付条件见 [接入规范与实施计划](docs/queryx-integration.md)。
 
-The project is being refocused on importing existing JSONLogic filter rules into QueryX/foxql. The current release contains the JSONLogic evaluation core, tested against `json-logic-js` 2.0.5 on native, JavaScript, Wasm and Wasm GC. The query adapter is planned and is not available in 0.1.0.
+This project targets importing existing JSONLogic filter rules into MoonBit's QueryX/foxql query pipeline. The current release contains the JSONLogic evaluation core, tested against `json-logic-js` 2.0.5 on native, JavaScript, Wasm and Wasm GC. The query adapter is planned and is not available in 0.1.0.
 
 ## 目标用户与接入流程
 
@@ -43,7 +43,7 @@ JSONLogic 运行库与 `compat` 对照程序只依赖 MoonBit 标准库。开发
 | [mbel](https://github.com/dimon-83/mbel) | 文本表达式、解释器与 VM、静态检查、执行预算 | 本项目聚焦存量 JSONLogic 筛选配置接入查询管线 |
 | [json-logic-js](https://github.com/jwadhams/json-logic-js) | 在 JavaScript 中执行 JSONLogic | 已实现 MoonBit 求值与固定版本对照；计划用作接入一致性验证的一方 |
 
-QueryX/foxql 已有的 SQL 下推、字段解析与查询构建归于现有项目。计划交付的增量是有类型约束和语义拒绝的 JSONLogic 导入。公开文档检索尚未发现现成 MoonBit 适配器，这不证明不存在其他实现。基础库的 [兼容范围](docs/compatibility.md)与未来查询适配范围分别记录。
+接入模块负责有类型约束和语义拒绝的 JSONLogic 导入，字段解析与 SQL 查询构建复用 QueryX/foxql。基础库的 [兼容范围](docs/compatibility.md)与查询适配范围分别记录。
 
 ## JSONLogic：可传递的业务规则
 
@@ -89,7 +89,7 @@ moon run src/examples/filter --target wasm-gc
 
 ## 在你的 MoonBit 项目中使用
 
-基础求值库 0.1.0 已发布到 [Mooncakes](https://mooncakes.io/docs/kaigeliang/jsonlogic)，不包含 QueryX/foxql 适配器。仓库主题调整尚未重新发布到 Mooncakes。在你的 MoonBit 项目中运行：
+基础求值库 0.1.0 已发布到 [Mooncakes](https://mooncakes.io/docs/kaigeliang/jsonlogic)，不包含 QueryX/foxql 适配器。在你的 MoonBit 项目中运行：
 
 ```sh
 moon add kaigeliang/jsonlogic@0.1.0

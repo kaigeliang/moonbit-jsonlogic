@@ -10,6 +10,6 @@ license = "MIT"
 
 keywords = [ "jsonlogic", "rules", "queryx", "migration" ]
 
-description = "JSONLogic evaluation core with a planned typed filter adapter for QueryX/foxql"
+description = "JSONLogic filter integration for QueryX/foxql; evaluation core available, adapter planned"
 
 source = "src"

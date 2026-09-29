@@ -1,6 +1,6 @@
 # API and integration
 
-This page documents the released JSONLogic evaluation core. The project's [QueryX/foxql integration direction](queryx-integration.md) is planned; no query-import or SQL API is available in 0.1.0.
+This page documents the released JSONLogic evaluation core. The [QueryX/foxql adapter](queryx-integration.md) is not yet implemented; no query-import or SQL API is available in 0.1.0.
 
 Import `kaigeliang/jsonlogic` as `@logic`. The runtime uses only `moonbitlang/core`.
 
