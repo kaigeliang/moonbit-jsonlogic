@@ -1,8 +1,8 @@
-# MoonBit CaseKit
+# CaseKit test support for JSONLogic
 
-**An original MoonBit behavior testing library, designed and implemented by Kaige Liang.**
+This directory contains a source copy of [MoonBit CaseKit](https://github.com/kaigeliang/moonbit-casekit), maintained here to reproduce the JSONLogic conformance checks.
 
-CaseKit is an independently reusable library delivered alongside [MoonBit JSONLogic](../../README.md). Its observation API, versioned transcript protocol, structural comparator, reports, native CLI and multi-backend runner are developed in this project. The JSONLogic conformance suite uses these APIs to compare the original JavaScript implementation with four MoonBit backends.
+The product of this repository is [MoonBit JSONLogic](../../README.md). CaseKit is a development dependency of the conformance module; applications importing JSONLogic do not depend on it. Its reusable API, CLI and runner belong to the separate CaseKit project. The documentation below describes the checked-in copy used to compare the original JavaScript implementation with four MoonBit backends.
 
 Record the behavior of a MoonBit program and compare it across **native, JavaScript,
 Wasm and Wasm-GC**. CaseKit reports the case ID, nested path, expected value and actual
