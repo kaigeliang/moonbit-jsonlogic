@@ -8,8 +8,8 @@ repository = "https://github.com/kaigeliang/moonbit-jsonlogic"
 
 license = "MIT"
 
-keywords = [ "jsonlogic", "rules", "validation" ]
+keywords = [ "jsonlogic", "rules", "queryx", "migration" ]
 
-description = "Portable JSONLogic rule evaluation for MoonBit with reference compatibility tests"
+description = "JSONLogic evaluation core with a planned typed filter adapter for QueryX/foxql"
 
 source = "src"

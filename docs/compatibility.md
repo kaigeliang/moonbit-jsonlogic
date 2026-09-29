@@ -1,5 +1,7 @@
 # Compatibility contract
 
+This contract applies to the JSONLogic evaluation core. The [planned QueryX/foxql adapter](queryx-integration.md) will have a narrower filter-import contract. The current corpus does not verify database queries or the adapter.
+
 The reference is **json-logic-js 2.0.5**, pinned to the commit in [the provenance record](../third_party/json-logic-js/README.md). This implementation supports the standard built-in rule operators over JSON data.
 
 ## Covered behaviors
