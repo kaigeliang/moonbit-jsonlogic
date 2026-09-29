@@ -1,5 +1,0 @@
-import {
-  "kaigeliang/casekit",
-}
-
-pkgtype(kind: "executable")

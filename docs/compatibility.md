@@ -38,8 +38,8 @@ python3 tools/check_compat.py
 
 1. `tools/reference.cjs` runs the unchanged vendored JS implementation. For official fixtures it first checks the reference result against the fixture's expected value.
 2. The generated `compat/src/cases.mbt` supplies identical inputs without filesystem or JavaScript FFI dependencies to each backend.
-3. CaseKit compares the original JS transcript to every MoonBit transcript. JSON types, case IDs and nested values must match. No numeric tolerance is enabled.
-4. A changed result is deliberately submitted to CaseKit; the runner requires difference exit code 1.
+3. `tools/check_compat.py` compares the reference results to each MoonBit result by case ID. JSON types, nested values and array order must match; object key order is ignored. JSON numbers are parsed as exact decimals and compared without tolerance.
+4. The script deliberately changes a reference result and requires the comparison to report a difference. Invalid result files and mismatches both fail the CI command.
 
 Current corpus: **278 official + 37 edge cases = 315**, on native, JS, Wasm and Wasm GC. Edge coverage includes identity, lazy failures, UTF-16, coercion, Infinity string comparisons, ECMAScript whitespace and collection scoping. Separate unit tests cover errors, budget exhaustion, log capture and own-property semantics.
 

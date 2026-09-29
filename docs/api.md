@@ -47,6 +47,6 @@ Compile the same MoonBit module to JS for a browser integration or to native/Was
 
 ## Workspace integration
 
-The repository's `moon.work` includes the library, conformance executable and CaseKit. Your application's own workspace only needs your module and this repository's root module. The compatibility modules, Node reference implementation and Python runner are not runtime dependencies.
+The repository's `moon.work` includes the library and its conformance executable. Your application's own workspace only needs your module and this repository's root module. The conformance executable, Node reference implementation and Python runner are development tools.
 
 See [the generated public interface](../src/pkg.generated.mbti) for exact signatures and [examples](../src/examples/) for complete programs.

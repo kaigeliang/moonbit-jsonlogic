@@ -22,4 +22,4 @@ with tempfile.TemporaryDirectory(prefix='jsonlogic-consumer-') as directory:
         result = subprocess.run(['moon', 'run', '-q', 'src', '--target', target], cwd=app, capture_output=True, text=True, timeout=120)
         if result.returncode or result.stdout.strip() != 'consumer-ok':
             raise SystemExit(f'{target}: external consumer failed\n{result.stdout}\n{result.stderr}')
-        print(f'{target}: external consumer passed without CaseKit workspace membership')
+        print(f'{target}: external consumer passed with only the JSONLogic module')

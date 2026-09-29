@@ -18,4 +18,4 @@ for (const {id, rule, data} of edges) {
   cases.push({id, value});
 }
 cases.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
-process.stdout.write(JSON.stringify({casekit: 1, suite: 'jsonlogic-2.0.5', cases}) + '\n');
+process.stdout.write(JSON.stringify({suite: 'jsonlogic-2.0.5', cases}) + '\n');

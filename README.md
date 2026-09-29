@@ -12,9 +12,8 @@ This repository's product is a MoonBit implementation of the standard [JSONLogic
 | --- | --- |
 | `src/` | JSONLogic 运行库；供应用安装与调用 |
 | `compat/`、`tools/`、`tests/` | 与原版 JavaScript 对照的回归验证；不进入应用运行路径 |
-| `support/casekit/` | 为使仓库内的对照验证可复现而保留的测试工具源码；独立项目见 [moonbit-casekit](https://github.com/kaigeliang/moonbit-casekit) |
 
-JSONLogic 运行库只依赖 MoonBit 标准库。应用使用 JSONLogic 时无需安装或导入 CaseKit；`compat` 模块在开发时使用 CaseKit 比较原版 JavaScript 与 MoonBit 的输出。本仓库的项目范围是 JSONLogic，不把 CaseKit 的独立功能计入本库的运行能力。
+JSONLogic 运行库与 `compat` 对照程序只依赖 MoonBit 标准库。开发时由 Python 脚本逐项比较原版 JavaScript 与 MoonBit 的输出；Python 和 Node.js 仅用于回归验证。
 
 ### 与相邻工具的边界
 
@@ -124,14 +123,14 @@ moon test --target native
 python3 tools/check_compat.py
 ```
 
-兼容性脚本执行固定版本的原版 JavaScript，再用 **CaseKit** 将每个 MoonBit 后端的结果与原版逐项比较：
+兼容性脚本执行固定版本的原版 JavaScript，将每个 MoonBit 后端的结果与原版逐项比较：
 
 - 278 个官方用例 + 37 个边界用例，当前共 **315 个**。
 - 四个后端均使用同一组输入，采用严格比较，不启用数值容差。
 - 每次运行保存输入版本对应的观察结果与差异报告到 `output/compat/`。
 - 故意篡改一个结果的负向验证，确认比较器会拒绝错误输出。
 
-JSONLogic 的 14 项求值与错误行为单元测试在四个后端运行；测试工具另有采集、比较及失败路径测试。外部应用接入测试验证 JSONLogic 可以独立使用。
+JSONLogic 的 14 项求值与错误行为单元测试在四个后端运行；Python 测试检查比较器会拒绝类型差异、缺失结果和无效输入。外部应用接入测试验证独立应用能够调用本库。
 
 ## 仓库内容
 
@@ -141,16 +140,14 @@ src/examples/         可运行的使用示例
 compat/               跨实现、跨后端的验证程序
 tests/                边界输入 fixtures
 tools/                原版执行器、fixture 生成器、兼容性检查
-support/casekit/      供本仓库回归验证使用的 CaseKit 源码副本
 third_party/          固定版本的原版 JS、官方测试与许可证
 docs/                 API 与兼容性说明
 ```
 
-修改 fixtures 后执行 `python3 tools/generate_cases.py && moon fmt`。CI 会检查 fixtures、公共 API、各后端单元测试、示例、兼容结果及 CaseKit 失败路径。
+修改 fixtures 后执行 `python3 tools/generate_cases.py && moon fmt`。CI 会检查 fixtures、公共 API、各后端单元测试、示例、兼容结果及比较器失败路径。
 
 ## 许可证与来源
 
 JSONLogic 采用 MIT 许可证。
 
 - **JSONLogic**：MoonBit 移植参考 Jeremy Wadhams 的 `json-logic-js`；标准规则格式及原版操作语义归于上游。原版代码和官方测试保留 MIT 许可证；固定提交、文件校验值及来源见 [来源记录](third_party/json-logic-js/README.md)。
-- **测试工具**：`support/casekit/` 保留 CaseKit 的 MIT 许可证；其独立仓库和使用文档见 [moonbit-casekit](https://github.com/kaigeliang/moonbit-casekit)。

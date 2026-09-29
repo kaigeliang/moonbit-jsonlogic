@@ -1,6 +1,0 @@
-import {
-  "kaigeliang/casekit",
-  "moonbitlang/core/json",
-}
-
-pkgtype(kind: "executable")

@@ -43,10 +43,8 @@ jobs:
         run: python3 tools/check_compat.py
       - name: External application integration
         run: python3 tools/check_consumer.py
-      - name: CaseKit CLI and runner failure paths
-        run: |
-          moon build --target native
-          python3 -m unittest discover -s support/casekit/tests -v
+      - name: Verify the conformance comparison gate
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - uses: actions/upload-artifact@v4
         if: always()
         with:
