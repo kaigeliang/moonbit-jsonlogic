@@ -1,6 +1,22 @@
 # API and integration
 
-This page documents the released JSONLogic evaluation core. The [QueryX/foxql adapter](queryx-integration.md) is not yet implemented; no query-import or SQL API is available in 0.1.0.
+The source checkout contains the native [QueryX/foxql adapter](queryx-integration.md) and the portable evaluation core. The published Mooncakes 0.1.0 release contains only the evaluation core.
+
+## QueryX import (native, source workspace)
+
+Import `kaigeliang/jsonlogic/queryx` as `@adapter`. The package returns the actual upstream QueryX `Expr`:
+
+```moonbit
+let fields = [@adapter.Field::{ name: "age", kind: @adapter.FieldType::Number }]
+@adapter.validate_record({ "age": 22 }, fields)
+let expr = @adapter.import_filter({ ">=": [{ "var": "age" }, 18] }, fields)
+```
+
+`FieldType::Number` accepts **Int32 integers**, `String` accepts valid non-NUL Unicode text, and `Bool` accepts JSON booleans. Record validation requires every declared field to be present, non-null and of the declared type. Extra keys are allowed but still receive full input validation.
+
+`import_filter(rule, fields, max_nodes=10000, max_depth=64)` and `validate_record(data, fields, max_nodes=10000, max_depth=64)` raise `ImportError`. The variants are `InvalidRule(path, reason)`, `InvalidRecord(path, reason)`, `InvalidFields(path, reason)`, and `LimitExceeded(path)`; `to_string()` renders them. Both functions check the entire JSON input, including subtrees that a later evaluator might skip. Limits are positive; `max_depth` must be between 1 and 128. Declare 1–1000 unique, nonempty top-level field names without dots.
+
+Use the returned Expr directly with QueryX's `eval` / `to_foxql_expr`, a trusted `FieldResolver`, and foxql. The SQL schema must enforce matching non-null column types and deterministic PostgreSQL `C` text equality. Do not serialize and reparse the Expr through QueryX's JSON DSL. See [the runnable integration program](../src/examples/queryx/main.mbt) and [the generated adapter interface](../src/queryx/pkg.generated.mbti).
 
 Import `kaigeliang/jsonlogic` as `@logic`. The runtime uses only `moonbitlang/core`.
 
@@ -49,6 +65,6 @@ Compile the same MoonBit module to JS for a browser integration or to native/Was
 
 ## Workspace integration
 
-The repository's `moon.work` includes the library and its conformance executable. Your application's own workspace only needs your module and this repository's root module. The conformance executable, Node reference implementation and Python runner are development tools.
+The repository's `moon.work` includes the library and its conformance executable. Your application's own workspace needs your module and this repository's root module. The query adapter resolves QueryX/foxql dependencies from the root manifest; applications importing QueryX by name should also declare that dependency. The conformance executable, Node reference implementation and Python runner are development tools. `tools/check_consumer.py` compiles separate applications against the core on native/JS and the query adapter on native.
 
 See [the generated public interface](../src/pkg.generated.mbti) for exact signatures and [examples](../src/examples/) for complete programs.

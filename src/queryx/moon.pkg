@@ -1,0 +1,10 @@
+supported_targets = "native"
+
+import {
+  "jaredzhou/queryx" @qx,
+}
+
+import {
+  "moonbitlang/core/json",
+  "moonbitlang/core/double",
+} for "test"

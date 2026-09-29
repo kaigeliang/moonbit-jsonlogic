@@ -1,0 +1,15 @@
+supported_targets = "native"
+
+import {
+  "kaigeliang/jsonlogic" @logic,
+  "kaigeliang/jsonlogic/queryx" @adapter,
+  "jaredzhou/queryx" @qx,
+  "jaredzhou/foxql",
+  "jaredzhou/foxql/ast",
+  "jaredzhou/foxql/builder",
+  "moonbitlang/core/debug",
+  "moonbitlang/core/env",
+  "moonbitlang/core/json",
+}
+
+pkgtype(kind: "executable")

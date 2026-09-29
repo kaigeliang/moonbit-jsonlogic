@@ -1,0 +1,1701 @@
+{
+  "producer": {
+    "package": "@react-querybuilder/core",
+    "version": "8.24.3",
+    "function": "formatQuery(query, 'jsonlogic')",
+    "format": "jsonlogic",
+    "source": "https://github.com/react-querybuilder/react-querybuilder",
+    "documentation": "https://react-querybuilder.js.org/docs/utils/export",
+    "package_source": "https://www.npmjs.com/package/@react-querybuilder/core/v/8.24.3",
+    "note": "Positive rules and the rqb/numeric-string-export rejection are unmodified exports of their bundled querytree; other rejection rules are deliberately handwritten contract probes."
+  },
+  "contract": {
+    "fields": "Flat, complete, nonnullable records; JSON number fields restricted to Int32.",
+    "comparisons": "Int32 comparisons; string/bool == and != with same-type literals.",
+    "logic": "Nonempty and/or groups and !; every leaf must be a comparison."
+  },
+  "queries": [
+    {
+      "id": "rqb/users/adult-active",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "age",
+            "operator": ">=",
+            "value": 18
+          },
+          {
+            "field": "active",
+            "operator": "=",
+            "value": true
+          }
+        ]
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            ">=": [
+              {
+                "var": "age"
+              },
+              18
+            ]
+          },
+          {
+            "==": [
+              {
+                "var": "active"
+              },
+              true
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/users/open-age-range",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "age",
+            "operator": ">",
+            "value": 18
+          },
+          {
+            "field": "age",
+            "operator": "<",
+            "value": 65
+          }
+        ]
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            ">": [
+              {
+                "var": "age"
+              },
+              18
+            ]
+          },
+          {
+            "<": [
+              {
+                "var": "age"
+              },
+              65
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/users/status-and-range",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "!=",
+            "value": "inactive"
+          },
+          {
+            "combinator": "or",
+            "rules": [
+              {
+                "field": "age",
+                "operator": "<",
+                "value": 18
+              },
+              {
+                "field": "age",
+                "operator": "<=",
+                "value": 65
+              }
+            ]
+          }
+        ]
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "!=": [
+              {
+                "var": "status"
+              },
+              "inactive"
+            ]
+          },
+          {
+            "or": [
+              {
+                "<": [
+                  {
+                    "var": "age"
+                  },
+                  18
+                ]
+              },
+              {
+                "<=": [
+                  {
+                    "var": "age"
+                  },
+                  65
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/users/unicode-and-quotes",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "=",
+            "value": "已付款"
+          },
+          {
+            "field": "name",
+            "operator": "=",
+            "value": "O'Reilly \"梁😀\""
+          }
+        ]
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "status"
+              },
+              "已付款"
+            ]
+          },
+          {
+            "==": [
+              {
+                "var": "name"
+              },
+              "O'Reilly \"梁😀\""
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/users/not-inactive",
+      "querytree": {
+        "combinator": "or",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "=",
+            "value": "inactive"
+          },
+          {
+            "field": "active",
+            "operator": "=",
+            "value": false
+          }
+        ],
+        "not": true
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "!": {
+          "or": [
+            {
+              "==": [
+                {
+                  "var": "status"
+                },
+                "inactive"
+              ]
+            },
+            {
+              "==": [
+                {
+                  "var": "active"
+                },
+                false
+              ]
+            }
+          ]
+        }
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/users/numeric-looking-string",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "=",
+            "value": "001"
+          },
+          {
+            "field": "active",
+            "operator": "!=",
+            "value": true
+          }
+        ]
+      },
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "status"
+              },
+              "001"
+            ]
+          },
+          {
+            "!=": [
+              {
+                "var": "active"
+              },
+              true
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 1,
+          "age": 17,
+          "status": "member",
+          "active": true,
+          "name": "未成年"
+        },
+        {
+          "id": 2,
+          "age": 18,
+          "status": "member",
+          "active": true,
+          "name": "梁😀"
+        },
+        {
+          "id": 3,
+          "age": 22,
+          "status": "inactive",
+          "active": false,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 4,
+          "age": 65,
+          "status": "active",
+          "active": true,
+          "name": "张三"
+        },
+        {
+          "id": 5,
+          "age": 66,
+          "status": "active",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 6,
+          "age": -2147483648,
+          "status": "active",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 7,
+          "age": 2147483647,
+          "status": "member",
+          "active": false,
+          "name": "最大值"
+        },
+        {
+          "id": 8,
+          "age": 22,
+          "status": "已付款",
+          "active": true,
+          "name": "O'Reilly \"梁😀\""
+        },
+        {
+          "id": 9,
+          "age": 22,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数不应成为SQL代码"
+        },
+        {
+          "id": 10,
+          "age": 19,
+          "status": "active",
+          "active": true,
+          "name": "下界之内"
+        },
+        {
+          "id": 11,
+          "age": 64,
+          "status": "active",
+          "active": true,
+          "name": "上界之内"
+        },
+        {
+          "id": 12,
+          "age": 22,
+          "status": "001",
+          "active": false,
+          "name": "数字外观的字符串"
+        }
+      ]
+    },
+    {
+      "id": "rqb/orders/paid-minimum-amount",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "=",
+            "value": "paid"
+          },
+          {
+            "field": "amount",
+            "operator": ">=",
+            "value": 100
+          }
+        ]
+      },
+      "schema": {
+        "amount": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "status"
+              },
+              "paid"
+            ]
+          },
+          {
+            ">=": [
+              {
+                "var": "amount"
+              },
+              100
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 101,
+          "amount": 99,
+          "status": "paid",
+          "active": true,
+          "name": "订单一"
+        },
+        {
+          "id": 102,
+          "amount": 100,
+          "status": "paid",
+          "active": true,
+          "name": "订单二😀"
+        },
+        {
+          "id": 103,
+          "amount": 101,
+          "status": "pending",
+          "active": true,
+          "name": "O'Reilly"
+        },
+        {
+          "id": 104,
+          "amount": 200,
+          "status": "cancelled",
+          "active": false,
+          "name": "已取消"
+        },
+        {
+          "id": 105,
+          "amount": 0,
+          "status": "paid",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 106,
+          "amount": -2147483648,
+          "status": "paid",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 107,
+          "amount": 2147483647,
+          "status": "paid",
+          "active": true,
+          "name": "最大值"
+        },
+        {
+          "id": 108,
+          "amount": 100,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数测试"
+        }
+      ]
+    },
+    {
+      "id": "rqb/orders/boundaries",
+      "querytree": {
+        "combinator": "or",
+        "rules": [
+          {
+            "field": "amount",
+            "operator": "<=",
+            "value": -2147483648
+          },
+          {
+            "field": "amount",
+            "operator": ">=",
+            "value": 2147483647
+          }
+        ]
+      },
+      "schema": {
+        "amount": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "or": [
+          {
+            "<=": [
+              {
+                "var": "amount"
+              },
+              -2147483648
+            ]
+          },
+          {
+            ">=": [
+              {
+                "var": "amount"
+              },
+              2147483647
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 101,
+          "amount": 99,
+          "status": "paid",
+          "active": true,
+          "name": "订单一"
+        },
+        {
+          "id": 102,
+          "amount": 100,
+          "status": "paid",
+          "active": true,
+          "name": "订单二😀"
+        },
+        {
+          "id": 103,
+          "amount": 101,
+          "status": "pending",
+          "active": true,
+          "name": "O'Reilly"
+        },
+        {
+          "id": 104,
+          "amount": 200,
+          "status": "cancelled",
+          "active": false,
+          "name": "已取消"
+        },
+        {
+          "id": 105,
+          "amount": 0,
+          "status": "paid",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 106,
+          "amount": -2147483648,
+          "status": "paid",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 107,
+          "amount": 2147483647,
+          "status": "paid",
+          "active": true,
+          "name": "最大值"
+        },
+        {
+          "id": 108,
+          "amount": 100,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数测试"
+        }
+      ]
+    },
+    {
+      "id": "rqb/orders/parameter-not-code",
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "status",
+            "operator": "=",
+            "value": "x' OR 1=1 --"
+          },
+          {
+            "field": "amount",
+            "operator": ">",
+            "value": 0
+          }
+        ]
+      },
+      "schema": {
+        "amount": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "status"
+              },
+              "x' OR 1=1 --"
+            ]
+          },
+          {
+            ">": [
+              {
+                "var": "amount"
+              },
+              0
+            ]
+          }
+        ]
+      },
+      "data": [
+        {
+          "id": 101,
+          "amount": 99,
+          "status": "paid",
+          "active": true,
+          "name": "订单一"
+        },
+        {
+          "id": 102,
+          "amount": 100,
+          "status": "paid",
+          "active": true,
+          "name": "订单二😀"
+        },
+        {
+          "id": 103,
+          "amount": 101,
+          "status": "pending",
+          "active": true,
+          "name": "O'Reilly"
+        },
+        {
+          "id": 104,
+          "amount": 200,
+          "status": "cancelled",
+          "active": false,
+          "name": "已取消"
+        },
+        {
+          "id": 105,
+          "amount": 0,
+          "status": "paid",
+          "active": false,
+          "name": ""
+        },
+        {
+          "id": 106,
+          "amount": -2147483648,
+          "status": "paid",
+          "active": true,
+          "name": "最小值"
+        },
+        {
+          "id": 107,
+          "amount": 2147483647,
+          "status": "paid",
+          "active": true,
+          "name": "最大值"
+        },
+        {
+          "id": 108,
+          "amount": 100,
+          "status": "x' OR 1=1 --",
+          "active": true,
+          "name": "参数测试"
+        }
+      ]
+    }
+  ],
+  "rejections": [
+    {
+      "id": "rqb/numeric-string-export",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": [
+          {
+            "==": [
+              {
+                "var": "age"
+              },
+              "18"
+            ]
+          }
+        ]
+      },
+      "reason": "The real producer preserves a numeric-looking string; the Int32 adapter must reject this comparison.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/and/0/==/1"
+      },
+      "querytree": {
+        "combinator": "and",
+        "rules": [
+          {
+            "field": "age",
+            "operator": "=",
+            "value": "18"
+          }
+        ]
+      }
+    },
+    {
+      "id": "empty-and",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "and": []
+      },
+      "reason": "Empty logical groups are outside the nonempty predicate subset.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/and"
+      }
+    },
+    {
+      "id": "empty-or",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "or": []
+      },
+      "reason": "Empty logical groups are outside the nonempty predicate subset.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/or"
+      }
+    },
+    {
+      "id": "null-literal",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": "age"
+          },
+          null
+        ]
+      },
+      "reason": "The typed SQL adapter accepts no nullable literals.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/1"
+      }
+    },
+    {
+      "id": "numeric-string-coercion",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": "age"
+          },
+          "18"
+        ]
+      },
+      "reason": "Same-type comparisons cannot reproduce number/string coercion.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/1"
+      }
+    },
+    {
+      "id": "boolean-number-coercion",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": "active"
+          },
+          1
+        ]
+      },
+      "reason": "Boolean/numeric coercion is outside the typed subset.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/1"
+      }
+    },
+    {
+      "id": "dynamic-var",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": {
+              "cat": [
+                "a",
+                "ge"
+              ]
+            }
+          },
+          18
+        ]
+      },
+      "reason": "Field names must be static schema-checked strings.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/0/var"
+      }
+    },
+    {
+      "id": "collection-scope",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "some": [
+          {
+            "var": "age"
+          },
+          {
+            ">": [
+              {
+                "var": ""
+              },
+              18
+            ]
+          }
+        ]
+      },
+      "reason": "Collection operators and local scopes are not scalar predicates.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/some"
+      }
+    },
+    {
+      "id": "unknown-field",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        ">": [
+          {
+            "var": "secret"
+          },
+          18
+        ]
+      },
+      "reason": "The field is absent from the declared schema.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/>/0/var"
+      }
+    },
+    {
+      "id": "integer-overflow",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        ">": [
+          {
+            "var": "age"
+          },
+          2147483648
+        ]
+      },
+      "reason": "The typed database currently accepts Int32 literals only.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/>/1"
+      }
+    },
+    {
+      "id": "integer-underflow",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        ">": [
+          {
+            "var": "age"
+          },
+          -2147483649
+        ]
+      },
+      "reason": "The typed database currently accepts Int32 literals only.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/>/1"
+      }
+    },
+    {
+      "id": "fractional-number",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        ">": [
+          {
+            "var": "age"
+          },
+          18.5
+        ]
+      },
+      "reason": "The database numeric column type is Int32.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/>/1"
+      }
+    },
+    {
+      "id": "nested-field",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": "profile.age"
+          },
+          18
+        ]
+      },
+      "reason": "Nested field paths are outside the flat-column subset.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/0/var"
+      }
+    },
+    {
+      "id": "field-default",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": [
+              "age",
+              18
+            ]
+          },
+          18
+        ]
+      },
+      "reason": "Variable defaults require missing-value semantics.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/0/var"
+      }
+    },
+    {
+      "id": "unknown-operation",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "dateRelative": [
+          "today"
+        ]
+      },
+      "reason": "Custom operations must not become executable SQL.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/dateRelative"
+      }
+    },
+    {
+      "id": "standalone-boolean",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": true,
+      "reason": "All predicate leaves must be typed comparisons.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": ""
+      }
+    },
+    {
+      "id": "bare-variable",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "var": "active"
+      },
+      "reason": "Bare variables rely on truthiness outside the comparison subset.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/var"
+      }
+    },
+    {
+      "id": "nul-string-literal",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "rule": {
+        "==": [
+          {
+            "var": "status"
+          },
+          "paid\u0000"
+        ]
+      },
+      "reason": "NUL cannot be transported through the current database string ABI.",
+      "expected_error": {
+        "kind": "invalid_rule",
+        "path": "/==/1"
+      }
+    }
+  ],
+  "record_rejections": [
+    {
+      "id": "null-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 201,
+        "age": null,
+        "status": "member",
+        "active": true,
+        "name": "Null"
+      },
+      "reason": "Null violates a nonnullable column.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/age"
+      }
+    },
+    {
+      "id": "missing-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 202,
+        "status": "member",
+        "active": true,
+        "name": "Missing"
+      },
+      "reason": "Missing age violates the complete record contract.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/age"
+      }
+    },
+    {
+      "id": "numeric-string-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 203,
+        "age": "18",
+        "status": "member",
+        "active": true,
+        "name": "String"
+      },
+      "reason": "Numeric strings are not Int32 JSON numbers.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/age"
+      }
+    },
+    {
+      "id": "boolean-number-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 204,
+        "age": 18,
+        "status": "member",
+        "active": 1,
+        "name": "Number"
+      },
+      "reason": "Boolean columns accept only JSON booleans.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/active"
+      }
+    },
+    {
+      "id": "overflow-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 205,
+        "age": 2147483648,
+        "status": "member",
+        "active": true,
+        "name": "Overflow"
+      },
+      "reason": "The record exceeds Int32.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/age"
+      }
+    },
+    {
+      "id": "fractional-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 206,
+        "age": 18.5,
+        "status": "member",
+        "active": true,
+        "name": "Fraction"
+      },
+      "reason": "The record is not an integer.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/age"
+      }
+    },
+    {
+      "id": "string-number-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 207,
+        "age": 18,
+        "status": 123,
+        "active": true,
+        "name": "Status"
+      },
+      "reason": "String columns accept only JSON strings.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/status"
+      }
+    },
+    {
+      "id": "nul-string-value",
+      "schema": {
+        "age": "int32",
+        "status": "string",
+        "active": "bool",
+        "name": "string"
+      },
+      "data": {
+        "id": 208,
+        "age": 18,
+        "status": "member",
+        "active": true,
+        "name": "NUL\u0000"
+      },
+      "reason": "NUL cannot be transported through the current database string ABI.",
+      "expected_error": {
+        "kind": "invalid_record",
+        "path": "/name"
+      }
+    }
+  ]
+}

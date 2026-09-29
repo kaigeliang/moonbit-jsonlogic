@@ -3,3 +3,4 @@ _build/
 output/
 __pycache__/
 *.pyc
+node_modules/

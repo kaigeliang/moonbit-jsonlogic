@@ -1,0 +1,12 @@
+{
+  "name": "moonbit-jsonlogic-queryx-fixtures",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node generate.mjs",
+    "check": "node generate.mjs --check"
+  },
+  "dependencies": {
+    "@react-querybuilder/core": "8.24.3"
+  }
+}

@@ -2,6 +2,10 @@
 
 These files are unmodified reference material, not a runtime dependency.
 
+The local `package.json` is repository-owned loader metadata. It marks the
+vendored UMD implementation as CommonJS so a parent ESM package cannot change
+how Node.js loads it. The upstream files below remain byte-for-byte unchanged.
+
 | File | Source | Pinned revision |
 | --- | --- | --- |
 | `logic.js` | [jwadhams/json-logic-js](https://github.com/jwadhams/json-logic-js/blob/c5c73601c90b11e98f6846609bac4dec203d1c18/logic.js), package version 2.0.5 | `c5c73601c90b11e98f6846609bac4dec203d1c18` |
