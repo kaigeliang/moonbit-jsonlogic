@@ -1,6 +1,6 @@
 # API and integration
 
-The source checkout contains the native [QueryX/foxql adapter](queryx-integration.md) and the portable evaluation core. The published Mooncakes 0.1.0 release contains only the evaluation core.
+The project provides a portable JSONLogic evaluation core and a native [QueryX/foxql adapter](queryx-integration.md). The published Mooncakes 0.1.0 release contains the evaluation core; the query adapter is available from source. Planned browser SDK, rule-analysis and batch APIs are not part of the current release.
 
 ## QueryX import (native, source workspace)
 

@@ -8,9 +8,9 @@ repository = "https://github.com/kaigeliang/moonbit-jsonlogic"
 
 license = "MIT"
 
-keywords = [ "jsonlogic", "rules", "queryx", "migration" ]
+keywords = [ "jsonlogic", "rules", "interpreter", "queryx" ]
 
-description = "Typed JSONLogic filter import for QueryX/foxql with PostgreSQL integration checks"
+description = "Portable JSONLogic rule evaluation with native QueryX/foxql integration"
 
 source = "src"
 
